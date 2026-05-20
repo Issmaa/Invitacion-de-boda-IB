@@ -1,0 +1,197 @@
+/* ═══════════════════════════════════════════ */
+/* RESPONSIVE - MOBILE FIRST                    */
+/* ═══════════════════════════════════════════ */
+
+/* 480px+ */
+@media (min-width: 480px) {
+    .countdown__card {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .countdown__number {
+        font-size: clamp(2.5rem, 8vw, 3.5rem);
+    }
+
+    .gallery__grid {
+        gap: var(--spacing-md);
+    }
+
+    .rsvp__radio-group {
+        flex-direction: row;
+        gap: var(--spacing-md);
+    }
+}
+
+/* 768px+ */
+@media (min-width: 768px) {
+    .container {
+        max-width: 800px;
+        padding: 0 var(--spacing-2xl);
+    }
+
+    .section {
+        padding: var(--spacing-5xl) 0;
+    }
+
+    .section__title {
+        font-size: clamp(2rem, 5vw, 2.75rem);
+    }
+
+    /* Hero */
+    .hero__name {
+        font-size: clamp(4rem, 8vw, 7rem);
+    }
+
+    .hero__floral {
+        width: 160px;
+    }
+
+    /* Save the Date */
+    .save-the-date__layout {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--spacing-3xl);
+    }
+
+    .save-the-date__image-wrap {
+        max-width: 280px;
+        flex-shrink: 0;
+    }
+
+    .save-the-date__text {
+        text-align: left;
+    }
+
+    .save-the-date__tagline {
+        margin-inline: 0;
+    }
+
+    /* Venues */
+    .venues__grid {
+        flex-direction: row;
+        gap: var(--spacing-xl);
+    }
+
+    .venue-card {
+        flex: 1;
+    }
+
+    /* Gallery */
+    .gallery__grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-md);
+    }
+
+    .gallery__item--large {
+        grid-column: 1 / 3;
+    }
+
+    /* Mesa de Regalos */
+    .gifts__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Guidelines */
+    .guidelines__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Snap & Share */
+    .snap-share__content {
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+        gap: var(--spacing-3xl);
+    }
+
+    .snap-share__instructions {
+        text-align: left;
+        flex: 1;
+    }
+
+    .snap-share__qr {
+        flex-shrink: 0;
+    }
+
+    /* Footer */
+    .footer__names {
+        font-size: 1.75rem;
+    }
+}
+
+/* 1024px+ */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 960px;
+    }
+
+    
+
+    .guidelines__grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .dress-code__palette {
+        gap: var(--spacing-xl);
+    }
+}
+
+/* ═══════════════════════════════════════════ */
+/* SAFE AREA INSETS (NOTCH DEVICES)            */
+/* ═══════════════════════════════════════════ */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+    .footer {
+        padding-bottom: calc(var(--spacing-3xl) + env(safe-area-inset-bottom));
+    }
+
+    .hero {
+        padding-left: max(var(--spacing-3xl), env(safe-area-inset-left));
+        padding-right: max(var(--spacing-3xl), env(safe-area-inset-right));
+    }
+}
+
+/* ═══════════════════════════════════════════ */
+/* SMALL SCREEN (< 360px) COMPACT              */
+/* ═══════════════════════════════════════════ */
+
+@media (max-width: 360px) {
+    .hero__name {
+        font-size: 2.75rem;
+    }
+
+    .hero__ampersand {
+        font-size: 1.25rem;
+    }
+
+    .countdown__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .countdown__number {
+        font-size: 1.75rem;
+    }
+
+    .rsvp__radio-group {
+        flex-direction: column;
+    }
+}
+
+/* ═══════════════════════════════════════════ */
+/* LANDSCAPE ORIENTATION                        */
+/* ═══════════════════════════════════════════ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        min-height: auto;
+        padding: 0 var(--spacing-lg);
+    }
+
+    .hero__name {
+        font-size: 2.5rem;
+    }
+
+    .hero__scroll-hint {
+        display: none;
+    }
+}

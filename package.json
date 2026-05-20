@@ -1,0 +1,12 @@
+{
+  "name": "boda",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "predev": "node generate-config.js",
+    "dev": "browser-sync start --server --files '**/*' --port 8080 --no-notify"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.0"
+  }
+}

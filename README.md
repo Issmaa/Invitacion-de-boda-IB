@@ -1,4 +1,4 @@
-# Invitación Digital — Gustavo & Nancy
+# Invitación Digital — Ismael & Brenda
 
 Invitación de boda single-page mobile-first con diseño "Everlasting Flora".
 
@@ -35,7 +35,7 @@ El flujo de confirmación funciona en 3 pasos:
 
 ### Modo demo
 
-Sin configurar la URL de Google Sheets, el RSVP funciona en modo demo con datos de ejemplo. Busca `"Ismael"` o `"Gustavo"` para ver el flujo.
+Sin configurar la URL de Google Sheets, el RSVP funciona en modo demo con datos de ejemplo. Busca `"Ismael"` o `"Ismael"` para ver el flujo.
 
 ### Conectar con Google Sheets
 
@@ -47,7 +47,7 @@ Crear una Google Sheet con la siguiente estructura:
 |-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | Nombre | Acompañante1 | Acompañante2 | Acompañante3 | Mesa | Confirmado | Mensaje | FechaConfirmacion |
 | Ismael López | Brenda Martínez | Carlos López | | 5 | | | |
-| Gustavo Hernández | Nancy Pérez | | | 1 | | | |
+| Ismael Hernández | Brenda Pérez | | | 1 | | | |
 
 - **Columna A**: Nombre del invitado titular (se usa para la búsqueda)
 - **Columnas B-D**: Acompañantes asignados (pueden estar vacíos)

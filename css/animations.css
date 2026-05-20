@@ -1,0 +1,342 @@
+/* ═══════════════════════════════════════════ */
+/* SCROLL REVEAL ANIMATIONS                    */
+/* ═══════════════════════════════════════════ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal--delay-1 {
+    transition-delay: 0.1s;
+}
+
+.reveal--delay-2 {
+    transition-delay: 0.2s;
+}
+
+.reveal--delay-3 {
+    transition-delay: 0.3s;
+}
+
+.reveal--delay-4 {
+    transition-delay: 0.4s;
+}
+
+.reveal--delay-5 {
+    transition-delay: 0.5s;
+}
+
+/* ═══════════════════════════════════════════ */
+/* HERO ENTRANCE ANIMATION                     */
+/* ═══════════════════════════════════════════ */
+
+.hero__content {
+    opacity: 0;
+    animation: heroFadeIn 1.2s ease-out 0.3s forwards;
+}
+
+@keyframes heroFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ═══════════════════════════════════════════ */
+/* FLORAL PATH ANIMATION                       */
+/* ═══════════════════════════════════════════ */
+
+.floral-path {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: drawFloral 3s ease-in-out forwards;
+}
+
+.floral-path--delay1 {
+    animation-delay: 0.5s;
+}
+
+@keyframes drawFloral {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.hero__floral {
+    opacity: 0;
+    animation: fadeInFloral 1s ease-out 0.5s forwards;
+}
+
+@keyframes fadeInFloral {
+    to {
+        opacity: 0.6;
+    }
+}
+
+/* ═══════════════════════════════════════════ */
+/* COUNTDOWN TICK ANIMATION                    */
+/* ═══════════════════════════════════════════ */
+
+.countdown__card {
+    transition: transform 0.3s ease;
+}
+
+.countdown__card.tick {
+    animation: countTick 0.4s ease-out;
+}
+
+@keyframes countTick {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════ */
+/* VENUE CARD HOVER                            */
+/* ═══════════════════════════════════════════ */
+
+.venue-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow var(--transition-base);
+}
+
+.venue-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.venue-card:hover .venue-card__icon {
+    transform: scale(1.1);
+    transition: transform var(--transition-base);
+}
+
+/* ═══════════════════════════════════════════ */
+/* GALLERY ITEM REVEAL                         */
+/* ═══════════════════════════════════════════ */
+
+.gallery__item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.gallery__item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════ */
+/* GUIDELINE CARD REVEAL                       */
+/* ═══════════════════════════════════════════ */
+
+.guideline-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow var(--transition-fast);
+}
+
+.guideline-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════ */
+/* TIMELINE ANIMATION                          */
+/* ═══════════════════════════════════════════ */
+
+.timeline__item {
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.timeline__item.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.timeline__dot {
+    transform: scale(0);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+
+.timeline__item.visible .timeline__dot {
+    transform: scale(1);
+}
+
+/* ═══════════════════════════════════════════ */
+/* DRESS CODE SWATCH HOVER                     */
+/* ═══════════════════════════════════════════ */
+
+.dress-code__swatch {
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dress-code__swatch.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ═══════════════════════════════════════════ */
+/* RSVP ANIMATIONS                              */
+/* ═══════════════════════════════════════════ */
+
+.rsvp__results.visible {
+    animation: rsvpFadeIn 0.4s ease-out forwards;
+}
+
+.rsvp__detail.visible {
+    animation: rsvpFadeIn 0.4s ease-out forwards;
+}
+
+.rsvp__decline.visible {
+    animation: rsvpFadeIn 0.4s ease-out forwards;
+}
+
+.rsvp__success.visible {
+    animation: successFadeIn 0.6s ease-out forwards;
+}
+
+.rsvp__result-item {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: resultSlideIn 0.3s ease-out forwards;
+}
+
+.rsvp__result-item:nth-child(1) { animation-delay: 0.05s; }
+.rsvp__result-item:nth-child(2) { animation-delay: 0.1s; }
+.rsvp__result-item:nth-child(3) { animation-delay: 0.15s; }
+.rsvp__result-item:nth-child(4) { animation-delay: 0.2s; }
+.rsvp__result-item:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes rsvpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes resultSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes successFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.rsvp__success-icon {
+    opacity: 0;
+    animation: successIconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+}
+
+@keyframes successIconPop {
+    from {
+        opacity: 0;
+        transform: scale(0) rotate(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* ═══════════════════════════════════════════ */
+/* SECTION DIVIDER ANIMATION                    */
+/* ═══════════════════════════════════════════ */
+
+.section__divider {
+    animation: dividerReveal 1s ease-out forwards;
+}
+
+@keyframes dividerReveal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ═══════════════════════════════════════════ */
+/* REDUCED MOTION                               */
+/* ═══════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+
+    .hero__content {
+        opacity: 1;
+        transform: none;
+    }
+
+    .floral-path {
+        stroke-dashoffset: 0;
+    }
+
+    .hero__floral {
+        opacity: 0.6;
+    }
+
+    .venue-card,
+    .gallery__item,
+    .guideline-card,
+    .timeline__item {
+        opacity: 1;
+        transform: none;
+    }
+
+    .timeline__dot {
+        transform: scale(1);
+    }
+
+    .dress-code__swatch {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
