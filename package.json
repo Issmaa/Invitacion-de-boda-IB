@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build": "node generate-config.js",
     "predev": "node generate-config.js",
     "dev": "browser-sync start --server --files '**/*' --port 8080 --no-notify"
   },
