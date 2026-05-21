@@ -1086,9 +1086,17 @@ ol {
     opacity: 0;
 }
 
-.rsvp__btn--confirm.loading .spinner,
-.rsvp__btn--send-decline.loading .spinner {
-    display: block;
+.rsvp__btn--confirm.loading .rsvp__btn-loading,
+.rsvp__btn--send-decline.loading .rsvp__btn-loading {
+    display: flex;
+}
+
+.rsvp__btn-loading {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .rsvp__btn--decline {
