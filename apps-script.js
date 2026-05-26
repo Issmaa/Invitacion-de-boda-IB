@@ -104,12 +104,21 @@ function handleSearch(query, sheet) {
       var limiteAcompanantes = row[1] !== '' ? parseInt(row[1], 10) : 0;
       if (isNaN(limiteAcompanantes)) limiteAcompanantes = 0;
 
+      // Soporte robusto para casillas de verificación (booleano true/false), texto "TRUE" o "SI"
+      var confirmadoStr = '';
+      var cellConfirmado = row[3];
+      if (cellConfirmado === true || String(cellConfirmado).toUpperCase() === 'TRUE' || String(cellConfirmado).toUpperCase() === 'SI') {
+        confirmadoStr = 'SI';
+      } else if (cellConfirmado === false || String(cellConfirmado).toUpperCase() === 'FALSE' || String(cellConfirmado).toUpperCase() === 'NO') {
+        confirmadoStr = 'NO';
+      }
+
       results.push({
         id: i + 1,
         nombre: nombre,
         limiteAcompanantes: limiteAcompanantes,
         mesa: row[2] ? String(row[2]).trim() : '',
-        confirmado: row[3] ? String(row[3]).trim() : '',
+        confirmado: confirmadoStr,
         acompanantesConfirmados: row[4] !== '' ? parseInt(row[4], 10) : 0
       });
     }
@@ -126,10 +135,12 @@ function handleConfirm(data, sheet) {
   var row = data.id;
   
   if (data.action === 'confirm') {
-    sheet.getRange(row, 4).setValue('SI'); // Columna D: Confirmado
+    // Si la columna D es una casilla de verificación (checkbox), escribir true la marcará
+    sheet.getRange(row, 4).setValue(true); // Columna D: Confirmado
     sheet.getRange(row, 5).setValue(data.acompanantesConfirmados || 0); // Columna E: Acompañantes Confirmados
   } else if (data.action === 'decline') {
-    sheet.getRange(row, 4).setValue('NO'); // Columna D: Confirmado
+    // Escribir false desmarcará la casilla de verificación
+    sheet.getRange(row, 4).setValue(false); // Columna D: Confirmado
     sheet.getRange(row, 5).setValue(0); // Columna E: Acompañantes Confirmados
   }
   
