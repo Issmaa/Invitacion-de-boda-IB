@@ -99,39 +99,18 @@ function handleSearch(query, sheet) {
     // Ignorar filas vacías
     if (!nombre) continue;
 
-    var match = false;
-
     // Buscar en el nombre del titular (columna A)
     if (fuzzyMatch(query, nombre)) {
-      match = true;
-    }
-
-    // Buscar en los acompañantes (columnas B, C, D)
-    if (!match) {
-      for (var k = 1; k <= 3; k++) {
-        if (row[k] && String(row[k]).trim()) {
-          if (fuzzyMatch(query, String(row[k]).trim())) {
-            match = true;
-            break;
-          }
-        }
-      }
-    }
-
-    if (match) {
-      var acompanantes = [];
-      for (var j = 1; j <= 3; j++) {
-        if (row[j] && String(row[j]).trim()) {
-          acompanantes.push(String(row[j]).trim());
-        }
-      }
+      var limiteAcompanantes = row[1] !== '' ? parseInt(row[1], 10) : 0;
+      if (isNaN(limiteAcompanantes)) limiteAcompanantes = 0;
 
       results.push({
         id: i + 1,
         nombre: nombre,
-        acompanantes: acompanantes,
-        mesa: row[4] ? String(row[4]).trim() : '',
-        confirmado: row[5] ? String(row[5]).trim() : ''
+        limiteAcompanantes: limiteAcompanantes,
+        mesa: row[2] ? String(row[2]).trim() : '',
+        confirmado: row[3] ? String(row[3]).trim() : '',
+        acompanantesConfirmados: row[4] !== '' ? parseInt(row[4], 10) : 0
       });
     }
   }
@@ -145,9 +124,17 @@ function handleSearch(query, sheet) {
 // ============================================
 function handleConfirm(data, sheet) {
   var row = data.id;
-  sheet.getRange(row, 6).setValue(data.confirmado);      // Columna F: Confirmado
-  sheet.getRange(row, 7).setValue(data.mensaje || '');    // Columna G: Mensaje
-  sheet.getRange(row, 8).setValue(data.fechaConfirmacion || new Date().toISOString()); // Columna H: Fecha
+  
+  if (data.action === 'confirm') {
+    sheet.getRange(row, 4).setValue('SI'); // Columna D: Confirmado
+    sheet.getRange(row, 5).setValue(data.acompanantesConfirmados || 0); // Columna E: Acompañantes Confirmados
+  } else if (data.action === 'decline') {
+    sheet.getRange(row, 4).setValue('NO'); // Columna D: Confirmado
+    sheet.getRange(row, 5).setValue(0); // Columna E: Acompañantes Confirmados
+  }
+  
+  sheet.getRange(row, 6).setValue(data.mensaje || ''); // Columna F: Mensaje
+  sheet.getRange(row, 7).setValue(data.fechaConfirmacion || new Date().toISOString()); // Columna G: Fecha
 
   return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
     .setMimeType(ContentService.MimeType.JSON);

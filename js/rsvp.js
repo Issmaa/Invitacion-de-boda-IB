@@ -162,13 +162,7 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
     }
 
     function matchesName(guest, query) {
-        if (fuzzyMatch(query, guest.nombre)) return true;
-        if (guest.acompanantes) {
-            for (var i = 0; i < guest.acompanantes.length; i++) {
-                if (guest.acompanantes[i] && fuzzyMatch(query, guest.acompanantes[i])) return true;
-            }
-        }
-        return false;
+        return fuzzyMatch(query, guest.nombre);
     }
 
     function showDemoResults(query) {
@@ -176,14 +170,14 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
             {
                 id: 2,
                 nombre: 'Ismael López',
-                acompanantes: ['Brenda Martínez', 'Carlos López'],
+                limiteAcompanantes: 2,
                 mesa: '5',
                 confirmado: ''
             },
             {
                 id: 3,
                 nombre: 'Gustavo Hernández',
-                acompanantes: ['Nancy Pérez'],
+                limiteAcompanantes: 1,
                 mesa: '1',
                 confirmado: ''
             }
@@ -206,7 +200,7 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
         resultsList.innerHTML = '';
 
         results.forEach(function (guest) {
-            var totalGuests = 1 + (guest.acompanantes ? guest.acompanantes.length : 0);
+            var totalGuests = 1 + (guest.limiteAcompanantes || 0);
             var item = document.createElement('button');
             item.className = 'rsvp__result-item';
             item.innerHTML =
@@ -233,7 +227,7 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
 
         detailName.textContent = guest.nombre;
 
-        var totalGuests = 1 + (guest.acompanantes ? guest.acompanantes.length : 0);
+        var totalGuests = 1 + (guest.limiteAcompanantes || 0);
         detailSubtitle.textContent = totalGuests + (totalGuests === 1 ? ' pase' : ' pases') + (guest.mesa ? ' \u00B7 Mesa ' + guest.mesa : '');
 
         var guestsHTML = '';
@@ -244,17 +238,18 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
             '<span class="rsvp__detail-guest-name">' + escapeHtml(guest.nombre) + '</span>' +
         '</div>';
 
-        if (guest.acompanantes && guest.acompanantes.length > 0) {
-            guest.acompanantes.forEach(function (acompanante) {
-                if (acompanante && acompanante.trim()) {
-                    guestsHTML += '<div class="rsvp__detail-guest">' +
-                        '<div class="rsvp__detail-guest-icon">' +
-                            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
-                        '</div>' +
-                        '<span class="rsvp__detail-guest-name">' + escapeHtml(acompanante) + '</span>' +
-                    '</div>';
-                }
-            });
+        if (guest.limiteAcompanantes && guest.limiteAcompanantes > 0) {
+            guestsHTML += '<div class="rsvp__detail-companions-selection" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: var(--spacing-xs);">' +
+                '<label for="rsvp-companions-select" class="rsvp__detail-guest-name" style="font-size: 0.85rem; color: var(--sage-light); font-weight: 500;">Selecciona el número de acompañantes que asistirán:</label>' +
+                '<select id="rsvp-companions-select" class="rsvp__select">';
+            
+            for (var i = 0; i <= guest.limiteAcompanantes; i++) {
+                var selectedAttr = (i === guest.limiteAcompanantes) ? ' selected' : '';
+                guestsHTML += '<option value="' + i + '"' + selectedAttr + '>' + i + (i === 1 ? ' acompañante' : ' acompañantes') + '</option>';
+            }
+            
+            guestsHTML += '</select>' +
+            '</div>';
         }
 
         detailGuests.innerHTML = guestsHTML;
@@ -279,10 +274,14 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
         if (!state.selectedGuest) return;
         setLoading(confirmBtn, true);
 
+        var selectEl = document.getElementById('rsvp-companions-select');
+        var acompsConfirmados = selectEl ? parseInt(selectEl.value, 10) : 0;
+
         var data = {
             action: 'confirm',
             id: state.selectedGuest.id,
             confirmado: 'SI',
+            acompanantesConfirmados: acompsConfirmados,
             mensaje: '',
             fechaConfirmacion: new Date().toISOString()
         };
@@ -290,7 +289,16 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
         submitResponse(data, function () {
             setLoading(confirmBtn, false);
             successTitle.textContent = '\u00A1Confirmaci\u00F3n Recibida!';
-            successText.textContent = 'Gracias, ' + state.selectedGuest.nombre.split(' ')[0] + '. Nos alegra mucho que nos acompa\u00F1ar\u00E1s. \u00A1Te esperamos!';
+            
+            var text = 'Gracias, ' + state.selectedGuest.nombre.split(' ')[0] + '. Nos alegra mucho que nos acompañarás';
+            if (acompsConfirmados > 0) {
+                text += ' junto con tu' + (acompsConfirmados === 1 ? ' acompañante' : 's ' + acompsConfirmados + ' acompañantes') + '.';
+            } else {
+                text += '.';
+            }
+            text += ' ¡Te esperamos!';
+            
+            successText.textContent = text;
             showPanel('rsvp-success');
             successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
@@ -310,6 +318,7 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
             action: 'decline',
             id: state.selectedGuest.id,
             confirmado: 'NO',
+            acompanantesConfirmados: 0,
             mensaje: declineMessage.value.trim(),
             fechaConfirmacion: new Date().toISOString()
         };
@@ -317,7 +326,7 @@ import { GOOGLE_SCRIPT_URL } from './config.js';
         submitResponse(data, function () {
             setLoading(sendDeclineBtn, false);
             successTitle.textContent = 'Respuesta Recibida';
-            successText.textContent = 'Lamentamos que no puedas acompa\u00F1arnos, ' + state.selectedGuest.nombre.split(' ')[0] + '. Te tenemos en nuestros corazones.';
+            successText.textContent = 'Lamentamos que no puedas acompañarnos, ' + state.selectedGuest.nombre.split(' ')[0] + '. Te tenemos en nuestros corazones.';
             showPanel('rsvp-success');
             successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
