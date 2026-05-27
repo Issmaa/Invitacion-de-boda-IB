@@ -668,6 +668,12 @@ ol {
     cursor: pointer;
 }
 
+.img-amazon-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* ═══════════════════════════════════════════ */
 /* 8. GUEST GUIDELINES                         */
 /* ═══════════════════════════════════════════ */
@@ -680,6 +686,16 @@ ol {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
+}
+
+.img-liverpool-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-liverpool-logo-container img {
+    border-radius: 4px;
 }
 
 .guideline-card {
